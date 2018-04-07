@@ -1,0 +1,87 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Coloro</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <link rel="shortcut icon" href="/assets/img/favicon.png" />
+    <link rel="stylesheet" type="text/css" href="/assets/style.css" />
+</head>
+
+<body>
+    <nav><a href="/login"></a>
+        <div id="title">
+            <h1> Coloro </h1>
+        </div>
+        <div class="navlink"><a href="/logout">Log out</a></div>
+    </nav>
+    
+    <section id="makeDomo">
+    <form id="colorForm" name="colorForm" action="/colors" method="POST" class="domoForm">
+      <label for="name">Name: </label>
+      <input id="domoName" type="text" name="name" placeholder="Domo Name"/>
+      <label for="age">Age: </label>
+      <input id="domoAge" type="text" name="age" placeholder="Domo Age"/>
+        <input type="hidden" name="_csrf" value={{csrfToken}} />
+      <input class="makeDomoSubmit" type="submit" value="Make Domo" />
+    </form>
+  </section>
+
+    <div id="mainHolder">
+        <h1 id="currColor"> Red </h1>
+
+        <div id="controls">
+            <ul>
+                <li id="newColor" class="controlBox">
+                    <div class="control">
+                        <p> New Color </p>
+                    </div>
+                </li>
+                <li id="saveColor" class="controlBox">
+                    <div class="control">
+                        <p> Save Color </p>
+                    </div>
+                </li>
+                <li id="hideSwatch" class="controlBox">
+                    <div class="control">
+                        <p> Hide Swatches </p>
+                    </div>
+                </li>
+                <li id="tint" class="controlBox">
+                    <div class="control">
+                        <p> Tint </p>
+                    </div>
+                </li>
+                <li id="lighten" class="controlBox">
+                    <div class="control">
+                        <p> Lighten </p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <section id="main">
+        <div class="domo">
+            {{#if colors}} {{#each colors}}
+            <div class="color">
+                <h3 class="colorName">Name: {{this.name}}</h3>
+                <h3 class="colorRgb">Age: {{this.rgb}}</h3>
+            </div>
+            {{/each}} {{else}}
+            <h3 class="emptyColor"> No Swatches yet </h3>
+            {{/if}}
+        </div>
+    </section>
+
+    <div id="paletteHolder">
+        <h2> Saved Colors </h2>
+    </div>
+    
+    <div id="domoMessage"><img id="speech" src="/assets/img/speech.png" alt="speech box" />
+        <h3><span id="errorMessage"></span></h3><img id="domo" src="assets/img/domo.png" alt="domo" />
+    </div>
+    <script src="/assets/bundle.js"></script>
+</body>
+
+</html>
