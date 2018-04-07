@@ -16,11 +16,11 @@
         "test": "echo \"Tests complete\""
     },
     "keywords": [
-    "Node",
-    "MVC",
-    "Redis",
-    "Login"
-  ],
+        "Node",
+        "MVC",
+        "Redis",
+        "Login"
+    ],
     "author": "Lucas Kern",
     "license": "Apache 2.0",
     "dependencies": {
