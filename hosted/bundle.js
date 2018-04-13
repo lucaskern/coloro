@@ -249,7 +249,7 @@ $(document).ready(function () {
         $("body").append($temp);
         $temp.val($(element).prop('title')).select();
         document.execCommand("copy");
-        console.log("copied" + $(element).prop("title"));
+        console.log("copied " + $(element).prop("title"));
         $temp.remove();
     };
 

@@ -69,18 +69,6 @@
         </div>
     </div>
 
-    <section id="main">
-        <div class="domo">
-            {{#if colors}} {{#each colors}}
-            <div class="color">
-                <h3 class="colorName">Name: {{this.name}}</h3>
-            </div>
-            {{/each}} {{else}}
-            <h3 class="emptyColor"> No Swatches yet </h3>
-            {{/if}}
-        </div>
-    </section>
-
     <div id="paletteHolder">
         <h2> Saved Colors </h2> <p style="margin: 0 0 10px 10px"> Click palette to copy color to clipboard</p>
         {{#if colors}} {{#each colors}}
