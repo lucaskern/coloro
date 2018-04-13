@@ -83,6 +83,14 @@ nav:nth-child(1) {
     background-color: #338acc;
 }
 
+#main {
+    display: none;
+}
+
+#makeColor {
+    display: none;
+}
+
 .mainForm {
     height: 300px;
     width: 350px;
@@ -98,7 +106,7 @@ nav:nth-child(1) {
 .mainForm label {
     display: inline-block;
     width: 100px;
-    margin-right: 10px;
+    margin-right: 20px;
     text-align: right;
     font-size: 1.2em;
 }
@@ -111,9 +119,9 @@ nav:nth-child(1) {
     margin-top: 14px;
     font-size: 1.2em;
     width: 100px;
-    background-color: #55acee;
+    background-color: rgba(0,0,0,0);
     border-radius: 2px;
-    border-color: #66acee;
+    border-color: white;
     padding: 3px 0px;
     color: white;
     text-decoration: none;
@@ -125,8 +133,15 @@ nav:nth-child(1) {
 
 .formSubmit:hover {
     transition: background-color 0.4s ease;
-    background-color: #338acc;
+    background-color: rgba(0,0,0, 0.2);
 }
+
+.controlBox:hover {
+    transition: background-color 0.4s ease;
+    background-color: rgba(0,0,0, 0.2);
+}
+
+
 
 #user, #pass, #pass2 {
     text-align: center;
@@ -140,7 +155,7 @@ nav:nth-child(1) {
     box-shadow: 0px 0px 1px 1px #55acee;
 }
 
-#domoMessage {
+#aniMessage {
     display:none;
     top: 250px;
     width: 250px;
@@ -151,7 +166,7 @@ nav:nth-child(1) {
     overflow: hidden;
 }
 
-#domoMessage h3 {
+#aniMessage h3 {
     width: 200px;
     position: absolute;
     top: 0px;
@@ -165,16 +180,16 @@ nav:nth-child(1) {
 }
 
 #errorMessage {
-    font-size: 1.2em;
+    font-size: 1em;
     font-weight: bold;
-    color: red;
+    color: black;
     font-style: italic;
 }
 
-#domo {
+#dont {
     z-index: 225;
     margin-top: -20px;
-    margin-left: 135px;
+    margin-left: 50px;
     height: 450px;
     width: 300px;
     -ms-transform: rotate(330deg);
@@ -263,10 +278,10 @@ body {
     background-color: lightsalmon;
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, p, a, label {
     color: white;
     font-family: sans-serif;
-  text-shadow: rgb(71, 71, 71) 1px 2px 10px;
+    text-shadow: rgb(71, 71, 71) 1px 2px 10px;
 }
 
 h1, p {
@@ -317,7 +332,7 @@ label {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin: 4px 2px;
+    margin: 4px 2px 5px 10px;
     cursor: pointer;
     border: 1px solid white;
 }
@@ -343,4 +358,9 @@ label {
   font-weight: 700;
   text-align: right;
   margin-bottom: 5px;
+}
+
+.adElementC {
+    background-image: url(img/fake-ad.jpg);
+    background-size: cover;
 }

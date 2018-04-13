@@ -11,23 +11,20 @@
         <div id="title">
             <h1> Coloro </h1>
         </div>
-        <div class="navlink"><a href="/login">Login</a></div>
-        <div class="navlink"><a href="/signup">Sign up</a></div>
+        <div class="navlink"><a href="/logout">Log out</a></div>
     </nav>
-  <section id="signup">
-    <form id="signupForm" name="signupForm" action="/signup" method="POST" class="mainForm">
-      <label for="username">Username: </label>
-      <input id="user" type="text" name="username" placeholder="username"/>
-      <label for="pass">Password: </label>
+  <section id="passchange">
+    <form id="passchangeForm" name="passchangeForm" action="/passchange" method="POST" class="mainForm">
+      <label for="pass">New Password: </label>
       <input id="pass" type="password" name="pass" placeholder="password"/>
-      <label for="pass2">Password: </label>
+      <label for="pass2">New Password Again: </label>
       <input id="pass2" type="password" name="pass2" placeholder="retype password"/>
         <input type="hidden" name="_csrf" value={{csrfToken}} />
       <input class="formSubmit" type="submit" value="Sign Up" />
     </form>
   </section>
-<div id="aniMessage"><img id="speech" src="/assets/img/speech.png" alt="speech box"/>
-    <h3><span id="errorMessage">Wrong username or password</span></h3><img id="dont" src="assets/img/dont.png" alt="dont finger"/>
+  <div id="domoMessage"><img id="speech" src="/assets/img/speech.png" alt="speech box"/>
+    <h3><span id="errorMessage"></span></h3><img id="domo" src="assets/img/domo.png" alt="domo"/>
   </div>
   <script src="/assets/bundle.js"></script>
 </body>

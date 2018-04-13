@@ -13,17 +13,15 @@
         <div id="title">
             <h1> Coloro </h1>
         </div>
-        <div class="navlink"><a href="/logout">Log out</a></div>
+        <div class="navlink"><a href="/logout"> Log out</a></div>
     </nav>
     
-    <section id="makeDomo">
-    <form id="colorForm" name="colorForm" action="/colors" method="POST" class="domoForm">
-      <label for="name">Name: </label>
-      <input id="domoName" type="text" name="name" placeholder="Domo Name"/>
-      <label for="age">Age: </label>
-      <input id="domoAge" type="text" name="age" placeholder="Domo Age"/>
+    <section id="makeColor">
+    <form id="colorForm" name="colorForm" action="/colors" method="POST" class="colorForm">
+      <label for="name">Color Name: </label>
+      <input id="colorName" type="text" name="name" placeholder="Color Rgb"/>
         <input type="hidden" name="_csrf" value={{csrfToken}} />
-      <input class="makeDomoSubmit" type="submit" value="Make Domo" />
+      <input class="makeColorSubmit" type="submit" value="Make Color" />
     </form>
   </section>
 
@@ -32,6 +30,11 @@
 
         <div id="controls">
             <ul>
+                <li id="adElement" class="controlBox adElementC">
+                    <div class="control">
+                        <p> YOUR AD HERE </p>
+                    </div>
+                </li>
                 <li id="newColor" class="controlBox">
                     <div class="control">
                         <p> New Color </p>
@@ -57,6 +60,11 @@
                         <p> Lighten </p>
                     </div>
                 </li>
+                <li id="adElement" class="controlBox adElementC">
+                    <div class="control">
+                        <p> YOUR AD HERE </p>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>
@@ -66,7 +74,6 @@
             {{#if colors}} {{#each colors}}
             <div class="color">
                 <h3 class="colorName">Name: {{this.name}}</h3>
-                <h3 class="colorRgb">Age: {{this.rgb}}</h3>
             </div>
             {{/each}} {{else}}
             <h3 class="emptyColor"> No Swatches yet </h3>
@@ -75,11 +82,16 @@
     </section>
 
     <div id="paletteHolder">
-        <h2> Saved Colors </h2>
+        <h2> Saved Colors </h2> <p style="margin: 0 0 10px 10px"> Click palette to copy color to clipboard</p>
+        {{#if colors}} {{#each colors}}
+                <button class='paletteBtn' title='{{this.name}}' style='background-color: {{this.name}}'> </button>
+            {{/each}} {{else}}
+            <h3 class="emptyColor"> No Swatches yet </h3>
+            {{/if}}
     </div>
     
-    <div id="domoMessage"><img id="speech" src="/assets/img/speech.png" alt="speech box" />
-        <h3><span id="errorMessage"></span></h3><img id="domo" src="assets/img/domo.png" alt="domo" />
+    <div id="aniMessage"><img id="speech" src="/assets/img/speech.png" alt="speech box" />
+        <h3><span id="errorMessage"></span></h3><img id="dont" src="assets/img/dont.png" alt="dont finger" />
     </div>
     <script src="/assets/bundle.js"></script>
 </body>

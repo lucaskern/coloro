@@ -15,11 +15,11 @@ const ColorSchema = new mongoose.Schema({
     set: setName,
   },
 
-  rgb: {
-    type: String,
-    required: true,
-    trim: true,
-  },
+//  rgb: {
+//    type: String,
+//    required: true,
+//    trim: true,
+//  },
 
   owner: {
     type: mongoose.Schema.ObjectId,
@@ -43,7 +43,7 @@ ColorSchema.statics.findByOwner = (ownerId, callback) => {
     owner: convertId(ownerId),
   };
 
-  return ColorModel.find(search).select('name rgb').exec(callback);
+  return ColorModel.find(search).select('name').exec(callback);
 };
 
 ColorModel = mongoose.model('Color', ColorSchema);

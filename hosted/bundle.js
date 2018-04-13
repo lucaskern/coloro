@@ -2,7 +2,7 @@
 
 var handleError = function handleError(message) {
     $("#errorMessage").text(message);
-    $("#domoMessage").animate({
+    $("#aniMessage").animate({
         width: 'toggle'
     }, 350);
 };
@@ -15,7 +15,7 @@ var sendAjax = function sendAjax(action, data) {
         data: data,
         dataType: "json",
         success: function success(result, status, xhr) {
-            $("#domoMessage").animate({
+            $("#aniMessage").animate({
                 width: 'hide'
             }, 350);
 
@@ -33,17 +33,17 @@ $(document).ready(function () {
     $("#signupForm").on("submit", function (e) {
         e.preventDefault();
 
-        $("#domoMessage").animate({
+        $("#aniMessage").animate({
             width: 'hide'
         }, 350);
 
         if ($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '') {
-            handleError("RAWR! All fields are required");
+            handleError("All fields are required");
             return false;
         }
 
         if ($("#pass").val() !== $("#pass2").val()) {
-            handleError("RAWR! Passwords do not match");
+            handleError("Passwords do not match");
             return false;
         }
 
@@ -55,33 +55,16 @@ $(document).ready(function () {
     $("#loginForm").on("submit", function (e) {
         e.preventDefault();
 
-        $("#domoMessage").animate({
+        $("#aniMessage").animate({
             width: 'hide'
         }, 350);
 
         if ($("#user").val() == '' || $("#pass").val() == '') {
-            handleError("RAWR! Username or password is empty");
+            handleError("Username or password is empty");
             return false;
         }
 
         sendAjax($("#loginForm").attr("action"), $("#loginForm").serialize());
-
-        return false;
-    });
-
-    $("#domoForm").on("submit", function (e) {
-        e.preventDefault();
-
-        $("#domoMessage").animate({
-            width: 'hide'
-        }, 350);
-
-        if ($("#domoName").val() == '' || $("#domoAge").val() == '') {
-            handleError("RAWR! All fields are required");
-            return false;
-        }
-
-        sendAjax($("#domoForm").attr("action"), $("#domoForm").serialize());
 
         return false;
     });
@@ -111,6 +94,8 @@ $(document).ready(function () {
         controlBar();
         getColor();
         setColor();
+
+        $('#colorName').val("rgb(" + colors[place][0] + ',' + colors[place][1] + ',' + colors[place][2] + ")");
     };
 
     var intro = function intro() {};
@@ -129,14 +114,29 @@ $(document).ready(function () {
         $("#tint").click(function () {
             keyPress(115);
         });
-
         $("#lighten").click(function () {
             keyPress(119);
         });
 
-        $("#saveColor").click(function () {
-            sendAjax($("#domoForm").attr("action"), $("#domoForm").serialize());
+        $("#saveColor").click(function (e) {
+
+            e.preventDefault();
+
+            $("#aniMessage").animate({
+                width: 'hide'
+            }, 350);
+
+            if ($("#colorName").val() == '') {
+                handleError("No Color specified");
+                return false;
+            }
+
+            $('#colorName').val("rgb(" + colors[place][0] + ',' + colors[place][1] + ',' + colors[place][2] + ")");
+
+            sendAjax($("#colorForm").attr("action"), $("#colorForm").serialize());
+
             saveColor();
+            return false;
         });
 
         //      $(".paletteBtn").click(function(e) {
