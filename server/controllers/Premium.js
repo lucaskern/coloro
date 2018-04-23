@@ -1,5 +1,3 @@
-const models = require('../models');
-
 const premiumPage = (req, res) => {
   res.render('premium', { csrfToken: req.csrfToken() });
 };
