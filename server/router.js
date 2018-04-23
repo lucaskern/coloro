@@ -9,6 +9,10 @@ const router = (app) => {
   app.get('/logout', mid.requiresLogin, controllers.Account.logout);
   app.get('/colors', mid.requiresLogin, controllers.Color.colorPage);
   app.post('/colors', mid.requiresLogin, controllers.Color.makeColor);
+  app.get('/premium', mid.requiresLogin, controllers.Premium.premiumPage);
+  app.post('/premium', mid.requiresLogin, controllers.Premium.premiumPage);
+  app.get('/passchange', mid.requiresLogin, controllers.Color.colorPage);
+  app.post('/passchange', mid.requiresLogin, controllers.Color.makeColor);    
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 };
 

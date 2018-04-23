@@ -368,3 +368,13 @@ label {
     background-image: url(img/fake-ad.jpg);
     background-size: cover;
 }
+
+.premiumMain {
+    margin-top: 50px;
+    color: white;
+    margin-left: 50px;
+}
+
+.premiumMain h1 {
+    text-align: left;
+}
