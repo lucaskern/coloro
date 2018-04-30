@@ -3,83 +3,39 @@
 <head>
     <meta charset="utf-8" />
     <title>Coloro</title>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@15/dist/react.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+    <script crossorigin src="https://unpkg.com/prop-types/prop-types.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.6.2/remarkable.min.js"></script>
     <link rel="shortcut icon" href="/assets/img/favicon.png" />
-    <link rel="stylesheet" type="text/css" href="/assets/style.css" />
+    <link rel="stylesheet" type="text/html" href="/hosted/style.css" />
 </head>
 
 <body>
-    <nav>
+ <nav><a href="/login"></a>
         <div id="title">
             <h1> Coloro </h1>
         </div>
-        <div class="navlink">
-            <a href="/premium"> Get Premium </a>
-            <a href="/logout"> Log out </a>
+        <div class="navlink"><a id="colorsButton" href="/colors">Home</a></div>
+        <div class="navlink"><a id="premiumButton" href="/premium">Premium</a></div>
+        <div class="navlink"><a id="logoutButton" href="/logout"> Log Out </a></div>
     </nav>
-    
+
     <section id="makeColor">
-    <form id="colorForm" name="colorForm" action="/colors" method="POST" class="colorForm">
-      <label for="name">Color Name: </label>
-      <input id="colorName" type="text" name="name" placeholder="Color Rgb"/>
-        <input type="hidden" name="_csrf" value={{csrfToken}} />
-      <input class="makeColorSubmit" type="submit" value="Make Color" />
-    </form>
-  </section>
 
-    <div id="mainHolder">
-        <h1 id="currColor"> Red </h1>
-
-        <div id="controls">
-            <ul>
-                <li id="adElement" class="controlBox adElementC">
-                    <div class="control">
-                        <p> YOUR AD HERE </p>
-                    </div>
-                </li>
-                <li id="newColor" class="controlBox">
-                    <div class="control">
-                        <p> New Color </p>
-                    </div>
-                </li>
-                <li id="saveColor" class="controlBox">
-                    <div class="control">
-                        <p> Save Color </p>
-                    </div>
-                </li>
-                <li id="hideSwatch" class="controlBox">
-                    <div class="control">
-                        <p> Hide Swatches </p>
-                    </div>
-                </li>
-                <li id="tint" class="controlBox">
-                    <div class="control">
-                        <p> Tint </p>
-                    </div>
-                </li>
-                <li id="lighten" class="controlBox">
-                    <div class="control">
-                        <p> Lighten </p>
-                    </div>
-                </li>
-                <li id="adElement" class="controlBox adElementC">
-                    <div class="control">
-                        <p> YOUR AD HERE </p>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
-
-    <div id="paletteHolder">
-        <h2> Saved Colors </h2> <p style="margin: 0 0 10px 10px"> Click palette to copy color to clipboard</p>
-        {{#if colors}} {{#each colors}}
-                <button class='paletteBtn' title='{{this.name}}' style='background-color: {{this.name}}'> </button>
-            {{/each}} {{else}}
-            <h3 class="emptyColor"> No Swatches yet </h3>
-            {{/if}}
-    </div>
+    </section>
     
+    <section id="mainHolder">
+    
+    </section>
+    
+    <section id="paletteHolder">
+
+    </section>
+
+
     <div id="aniMessage"><img id="speech" src="/assets/img/speech.png" alt="speech box" />
         <h3><span id="errorMessage"></span></h3><img id="dont" src="assets/img/dont.png" alt="dont finger" />
     </div>

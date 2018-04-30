@@ -1,73 +1,213 @@
 "use strict";
 
-var handleError = function handleError(message) {
-    $("#errorMessage").text(message);
-    $("#aniMessage").animate({
-        width: 'toggle'
-    }, 350);
-};
+var handleColor = function handleColor(e) {
+    e.preventDefault();
 
-var sendAjax = function sendAjax(action, data) {
-    $.ajax({
-        cache: false,
-        type: "POST",
-        url: action,
-        data: data,
-        dataType: "json",
-        success: function success(result, status, xhr) {
-            $("#aniMessage").animate({
-                width: 'hide'
-            }, 350);
+    $("#aniMessage").animate({ width: "hide" }, 350);
 
-            window.location = result.redirect;
-        },
-        error: function error(xhr, status, _error) {
-            var messageObj = JSON.parse(xhr.responseText);
+    if ($("#colorName").val() == '') {
+        handleError("All fields are required");
+        return false;
+    }
 
-            handleError(messageObj.error);
-        }
+    sendAjax('POST', $("#colorForm").attr("action"), $("#colorForm").serialize(), function () {
+        loadColorsFromServer();
     });
+
+    return false;
 };
 
-$(document).ready(function () {
-    $("#signupForm").on("submit", function (e) {
+var ColorForm = function ColorForm(props) {
+    return React.createElement(
+        "form",
+        { id: "colorForm",
+            name: "colorForm",
+            onSubmit: handleColor,
+            action: "/colors",
+            method: "POST",
+            className: "colorForm" },
+        React.createElement(
+            "label",
+            { htmlFor: "name" },
+            "Color Name: "
+        ),
+        React.createElement("input", { id: "colorName", type: "text", name: "name", placeholder: "Color Rgb" }),
+        React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
+        React.createElement("input", { className: "makeColorSubmit", type: "submit", value: "Make Color" })
+    );
+};
+
+var MainHolder = function MainHolder(props) {
+    return React.createElement(
+        "div",
+        null,
+        React.createElement(
+            "h1",
+            { id: "currColor" },
+            " Red "
+        ),
+        React.createElement(
+            "div",
+            { id: "controls" },
+            React.createElement(
+                "ul",
+                null,
+                React.createElement(
+                    "li",
+                    { id: "adElement", className: "controlBox adElementC" },
+                    React.createElement(
+                        "div",
+                        { className: "control" },
+                        React.createElement(
+                            "p",
+                            null,
+                            " YOUR AD HERE "
+                        )
+                    )
+                ),
+                React.createElement(
+                    "li",
+                    { id: "newColor", className: "controlBox" },
+                    React.createElement(
+                        "div",
+                        { className: "control" },
+                        React.createElement(
+                            "p",
+                            null,
+                            " New Color "
+                        )
+                    )
+                ),
+                React.createElement(
+                    "li",
+                    { id: "saveColor", className: "controlBox" },
+                    React.createElement(
+                        "div",
+                        { className: "control" },
+                        React.createElement(
+                            "p",
+                            null,
+                            " Save Color "
+                        )
+                    )
+                ),
+                React.createElement(
+                    "li",
+                    { id: "hideSwatch", className: "controlBox" },
+                    React.createElement(
+                        "div",
+                        { className: "control" },
+                        React.createElement(
+                            "p",
+                            null,
+                            " Hide Swatches "
+                        )
+                    )
+                ),
+                React.createElement(
+                    "li",
+                    { id: "tint", className: "controlBox" },
+                    React.createElement(
+                        "div",
+                        { className: "control" },
+                        React.createElement(
+                            "p",
+                            null,
+                            " Tint "
+                        )
+                    )
+                ),
+                React.createElement(
+                    "li",
+                    { id: "lighten", className: "controlBox" },
+                    React.createElement(
+                        "div",
+                        { className: "control" },
+                        React.createElement(
+                            "p",
+                            null,
+                            " Lighten "
+                        )
+                    )
+                ),
+                React.createElement(
+                    "li",
+                    { id: "adElement", className: "controlBox adElementC" },
+                    React.createElement(
+                        "div",
+                        { className: "control" },
+                        React.createElement(
+                            "p",
+                            null,
+                            " YOUR AD HERE "
+                        )
+                    )
+                )
+            )
+        )
+    );
+};
+
+var ColorList = function ColorList(props) {
+    //console.log("wtf");
+    if (props.colors.length === 0) {
+        return React.createElement(
+            "div",
+            { className: "colorList" },
+            React.createElement(
+                "h3",
+                { className: "emptyColor" },
+                " No colors yet "
+            )
+        );
+    }
+
+    var colorNodes = props.colors.map(function (color) {
+
+        var styles = {
+            backgroundColor: color.name
+        };
+
+        return React.createElement(
+            "button",
+            { className: "paletteBtn", key: color._id, title: color.name, style: styles },
+            " "
+        );
+    });
+
+    return React.createElement(
+        "div",
+        { className: "colorList" },
+        colorNodes
+    );
+};
+
+var loadColorsFromServer = function loadColorsFromServer() {
+    sendAjax("GET", '/getColors', null, function (data) {
+        console.log(data);
+        ReactDOM.render(React.createElement(ColorList, { colors: data.colors }), document.querySelector("#paletteHolder"));
+    });
+
+    //controls();
+};
+
+var setup = function setup(csrf) {
+
+    var premiumButton = document.querySelector("#premiumButton");
+
+    premiumButton.addEventListener("click", function (e) {
         e.preventDefault();
-
-        $("#aniMessage").animate({
-            width: 'hide'
-        }, 350);
-
-        if ($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '') {
-            handleError("All fields are required");
-            return false;
-        }
-
-        if ($("#pass").val() !== $("#pass2").val()) {
-            handleError("Passwords do not match");
-            return false;
-        }
-
-        sendAjax($("#signupForm").attr("action"), $("#signupForm").serialize());
-
+        createPremium(csrf);
         return false;
     });
 
-    $("#loginForm").on("submit", function (e) {
-        e.preventDefault();
+    ReactDOM.render(React.createElement(ColorForm, { csrf: csrf }), document.querySelector("#makeColor"));
 
-        $("#aniMessage").animate({
-            width: 'hide'
-        }, 350);
+    ReactDOM.render(React.createElement(MainHolder, { csrf: csrf }), document.querySelector("#mainHolder"));
 
-        if ($("#user").val() == '' || $("#pass").val() == '') {
-            handleError("Username or password is empty");
-            return false;
-        }
+    ReactDOM.render(React.createElement(ColorList, { colors: [] }), document.querySelector("#paletteHolder"));
 
-        sendAjax($("#loginForm").attr("action"), $("#loginForm").serialize());
-
-        return false;
-    });
+    loadColorsFromServer();
 
     var place = 1;
     var colorNum = 1;
@@ -133,7 +273,11 @@ $(document).ready(function () {
 
             $('#colorName').val("rgb(" + colors[place][0] + ',' + colors[place][1] + ',' + colors[place][2] + ")");
 
-            sendAjax($("#colorForm").attr("action"), $("#colorForm").serialize());
+            //console.log(document.querySelector("#colorForm"));
+            //handleColor();
+            sendAjax('POST', $("#colorForm").attr("action"), $("#colorForm").serialize(), function () {
+                loadColorsFromServer();
+            });
 
             saveColor();
             return false;
@@ -152,7 +296,7 @@ $(document).ready(function () {
         };
 
         var swatches = document.getElementsByClassName('paletteBtn');
-        console.log(swatches);
+        //console.log(swatches);
 
         var _loop = function _loop(i) {
             swatches.item(i).onclick = function (e) {
@@ -348,4 +492,90 @@ $(document).ready(function () {
     };
 
     init();
+
+    console.log("load Colors ran");
+};
+
+var getToken = function getToken() {
+
+    sendAjax('GET', '/getToken', null, function (result) {
+        setup(result.csrfToken);
+    });
+    console.log("get token ran");
+};
+
+var Premium = function Premium(props) {
+    return React.createElement(
+        "div",
+        { className: "premiumMain" },
+        React.createElement(
+            "h1",
+            null,
+            " Buy premium and get: "
+        ),
+        React.createElement(
+            "ul",
+            null,
+            React.createElement(
+                "li",
+                null,
+                " Unlimited palettes! "
+            ),
+            React.createElement(
+                "li",
+                null,
+                " Bragging rights with your friends! "
+            ),
+            React.createElement(
+                "li",
+                null,
+                " A lighter wallet! "
+            )
+        ),
+        React.createElement(
+            "h3",
+            null,
+            " only 1000$ a month"
+        ),
+        React.createElement(
+            "a",
+            { href: "https://www.gofundme.com/fight-cancer-with-james" },
+            " Buy Now "
+        )
+    );
+};
+
+var createPremium = function createPremium(csrf) {
+    ReactDOM.render(React.createElement(Premium, { csrf: csrf }), document.querySelector("#mainHolder"));
+};
+
+$(document).ready(function () {
+    getToken();
 });
+"use strict";
+
+var handleError = function handleError(message) {
+  $("#errorMessage").text(message);
+  $("#aniMessage").animate({ width: 'toggle' }, 350);
+};
+
+var redirect = function redirect(response) {
+  $("#aniMessage").animate({ width: 'hide' }, 350);
+  window.location = response.redirect;
+};
+
+var sendAjax = function sendAjax(type, action, data, success) {
+  $.ajax({
+    cache: false,
+    type: type,
+    url: action,
+    data: data,
+    dataType: "json",
+    success: success,
+    error: function error(xhr, status, _error) {
+      var messageObj = JSON.parse(xhr.responseText);
+      console.warn(xhr.responseText);
+      handleError(messageObj.error);
+    }
+  });
+};

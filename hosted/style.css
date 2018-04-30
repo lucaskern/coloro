@@ -278,7 +278,7 @@ body {
     background-color: lightsalmon;
 }
 
-h1, h2, h3, h4, p, a, label {
+h1, h2, h3, h4, p, a, label, li, ul {
     color: white;
     font-family: sans-serif;
     text-shadow: rgb(71, 71, 71) 1px 2px 10px;
@@ -372,7 +372,7 @@ label {
 .premiumMain {
     margin-top: 50px;
     color: white;
-    margin-left: 50px;
+    margin-left: 40%;
 }
 
 .premiumMain h1 {
