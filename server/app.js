@@ -74,7 +74,7 @@ app.use((err, req, res, next) => {
 
 router(app);
 
-app.use(function(req, res, next){
+app.use((req, res) => {
   res.status(404);
 
   // respond with html page
