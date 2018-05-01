@@ -1,5 +1,6 @@
 "use strict";
 
+var countCol = 0;
 var handleColor = function handleColor(e) {
     e.preventDefault();
 
@@ -184,31 +185,14 @@ var ColorList = function ColorList(props) {
 
 var loadColorsFromServer = function loadColorsFromServer() {
     sendAjax("GET", '/getColors', null, function (data) {
-        console.log(data);
+        //console.log(data);
         ReactDOM.render(React.createElement(ColorList, { colors: data.colors }), document.querySelector("#paletteHolder"));
     });
 
     //controls();
 };
 
-var setup = function setup(csrf) {
-
-    var premiumButton = document.querySelector("#premiumButton");
-
-    premiumButton.addEventListener("click", function (e) {
-        e.preventDefault();
-        createPremium(csrf);
-        return false;
-    });
-
-    ReactDOM.render(React.createElement(ColorForm, { csrf: csrf }), document.querySelector("#makeColor"));
-
-    ReactDOM.render(React.createElement(MainHolder, { csrf: csrf }), document.querySelector("#mainHolder"));
-
-    ReactDOM.render(React.createElement(ColorList, { colors: [] }), document.querySelector("#paletteHolder"));
-
-    loadColorsFromServer();
-
+var appCode = function appCode() {
     var place = 1;
     var colorNum = 1;
     var colors = [];
@@ -410,7 +394,7 @@ var setup = function setup(csrf) {
 
         colorNum++;
 
-        console.log(colors);
+        //console.log(colors);
     };
 
     //darken color by 20%
@@ -496,12 +480,50 @@ var setup = function setup(csrf) {
     console.log("load Colors ran");
 };
 
+var setup = function setup(csrf) {
+
+    var premiumButton = document.querySelector("#premiumButton");
+
+    premiumButton.addEventListener("click", function (e) {
+        e.preventDefault();
+        countColors();
+        createPremium(csrf);
+        return false;
+    });
+
+    var appButton = document.querySelector("#colorsButton");
+
+    appButton.addEventListener("click", function (e) {
+        e.preventDefault();
+        countColors();
+        createApp(csrf);
+        return false;
+    });
+
+    var acctButton = document.querySelector("#acctButton");
+
+    acctButton.addEventListener("click", function (e) {
+        e.preventDefault();
+        countColors();
+        createAccount(csrf);
+        return false;
+    });
+
+    createApp(csrf);
+
+    loadColorsFromServer();
+
+    countColors();
+
+    //appCode();
+};
+
 var getToken = function getToken() {
 
     sendAjax('GET', '/getToken', null, function (result) {
         setup(result.csrfToken);
     });
-    console.log("get token ran");
+    //console.log("get token ran");
 };
 
 var Premium = function Premium(props) {
@@ -545,8 +567,64 @@ var Premium = function Premium(props) {
     );
 };
 
+var countColors = function countColors() {
+    sendAjax("GET", '/getColors', null, function (data) {
+        //console.log(data);
+        countCol = data.colors.length;
+        //console.log("counted are: " + countCol);
+    });
+
+    //controls();
+};
+
+var AccountPage = function AccountPage(props) {
+
+    countColors();
+    var countColVal = countCol;
+
+    //console.log(countCol);
+
+    return React.createElement(
+        "div",
+        { className: "premiumMain" },
+        React.createElement(
+            "h1",
+            null,
+            " This is your account page "
+        ),
+        React.createElement(
+            "h3",
+            null,
+            " You have ",
+            countColVal,
+            " Palettes "
+        ),
+        React.createElement(
+            "h4",
+            null,
+            " Remember to buy premium if you want unlimited palettes! "
+        )
+    );
+};
+
 var createPremium = function createPremium(csrf) {
     ReactDOM.render(React.createElement(Premium, { csrf: csrf }), document.querySelector("#mainHolder"));
+};
+
+var createAccount = function createAccount(csrf) {
+    ReactDOM.render(React.createElement(AccountPage, { csrf: csrf }), document.querySelector("#mainHolder"));
+};
+
+var createApp = function createApp(csrf) {
+    ReactDOM.render(React.createElement(ColorForm, { csrf: csrf }), document.querySelector("#makeColor"));
+
+    ReactDOM.render(React.createElement(MainHolder, { csrf: csrf }), document.querySelector("#mainHolder"));
+
+    ReactDOM.render(React.createElement(ColorList, { colors: [] }), document.querySelector("#paletteHolder"));
+
+    loadColorsFromServer();
+
+    appCode();
 };
 
 $(document).ready(function () {

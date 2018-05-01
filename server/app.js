@@ -74,6 +74,25 @@ app.use((err, req, res, next) => {
 
 router(app);
 
+app.use(function(req, res, next){
+  res.status(404);
+
+  // respond with html page
+  if (req.accepts('html')) {
+    res.render('lost', { url: req.url });
+    return;
+  }
+
+  // respond with json
+  if (req.accepts('json')) {
+    res.send({ error: 'Not found' });
+    return;
+  }
+
+  // default to plain-text. send()
+  res.type('txt').send('Not found');
+});
+
 app.listen(port, (err) => {
   if (err) {
     throw err;

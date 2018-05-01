@@ -6,6 +6,12 @@ html, body {
     overflow-x: hidden;
 }
 
+#lostInfo {
+    margin: 0 auto;
+    padding: 50px;
+    
+}
+
 #logo {
     height: 40px;
     width: 40;
@@ -317,7 +323,7 @@ label {
 
 #paletteHolder {
     position: absolute;
-    bottom: 10%;
+    bottom: 0%;
     margin: 0;
     width: 100%;
     height: 75px;

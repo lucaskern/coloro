@@ -1,3 +1,4 @@
+let countCol = 0;
 const handleColor = (e) => {
     e.preventDefault();
     
@@ -111,7 +112,7 @@ const ColorList = function(props) {
 
 const loadColorsFromServer = () => {
     sendAjax("GET", '/getColors', null, (data) => {
-        console.log(data);
+        //console.log(data);
         ReactDOM.render(
         <ColorList colors={data.colors} />, document.querySelector("#paletteHolder")
       );  
@@ -120,30 +121,7 @@ const loadColorsFromServer = () => {
     //controls();
 };
 
-const setup = function(csrf) {
-    
-    const premiumButton = document.querySelector("#premiumButton");
-    
-    premiumButton.addEventListener("click", (e) => {
-       e.preventDefault();
-        createPremium(csrf);
-        return false;
-    });
-    
-  ReactDOM.render(
-    <ColorForm csrf={csrf} />, document.querySelector("#makeColor")
-  );
-    
- ReactDOM.render(
-    <MainHolder csrf={csrf} />, document.querySelector("#mainHolder")
- );
-    
-  ReactDOM.render(
-    <ColorList colors={[]}/>, document.querySelector("#paletteHolder")
-  );
-
-  loadColorsFromServer();
-
+const appCode = function() {
     let place = 1;
     let colorNum = 1;
     let colors = [];
@@ -343,7 +321,7 @@ const setup = function(csrf) {
 
         colorNum++;
 
-        console.log(colors);
+        //console.log(colors);
     }
 
     //darken color by 20%
@@ -427,6 +405,44 @@ const setup = function(csrf) {
     init();
     
     console.log("load Colors ran");
+}
+
+const setup = function(csrf) {
+    
+    const premiumButton = document.querySelector("#premiumButton");
+    
+    premiumButton.addEventListener("click", (e) => {
+       e.preventDefault();
+        countColors();
+        createPremium(csrf);
+        return false;
+    });
+    
+    const appButton = document.querySelector("#colorsButton");
+    
+    appButton.addEventListener("click", (e) => {
+       e.preventDefault();
+        countColors();
+        createApp(csrf);
+        return false;
+    });
+    
+    const acctButton = document.querySelector("#acctButton");
+    
+    acctButton.addEventListener("click", (e) => {
+       e.preventDefault();
+        countColors();
+        createAccount(csrf);
+        return false;
+    });
+    
+  createApp(csrf);
+
+  loadColorsFromServer();
+    
+  countColors();
+
+  //appCode();
 };
 
 const getToken = () => {
@@ -434,7 +450,7 @@ const getToken = () => {
     sendAjax('GET', '/getToken', null, (result) => {
         setup(result.csrfToken);
     });
-     console.log("get token ran");
+     //console.log("get token ran");
 };
 
 const Premium = (props) => {
@@ -452,12 +468,66 @@ const Premium = (props) => {
     );
 };
 
+const countColors = () => {
+    sendAjax("GET", '/getColors', null, (data) => {
+        //console.log(data);
+        countCol = data.colors.length;
+        //console.log("counted are: " + countCol);
+    });
+    
+    //controls();
+};
+
+const AccountPage = (props) => {
+    
+    countColors();
+    let countColVal = countCol;
+    
+    //console.log(countCol);
+    
+    return (
+        <div className="premiumMain">
+            <h1> This is your account page </h1>
+            <h3> You have {countColVal} Palettes </h3>
+            <h4> Remember to buy premium if you want unlimited palettes! </h4>
+        </div>
+    );
+};
+
 const createPremium = (csrf) => {
     ReactDOM.render(
         <Premium csrf={csrf} />,
         document.querySelector("#mainHolder")
     );
 };
+
+const createAccount = (csrf) => {
+    ReactDOM.render(
+        <AccountPage csrf={csrf} />,
+        document.querySelector("#mainHolder")
+    );
+};
+
+const createApp = (csrf) => {
+    ReactDOM.render(
+    <ColorForm csrf={csrf} />, 
+     document.querySelector("#makeColor")
+  );
+    
+ ReactDOM.render(
+    <MainHolder csrf={csrf} />,
+     document.querySelector("#mainHolder")
+ );
+    
+  ReactDOM.render(
+    <ColorList colors={[]}/>,
+      document.querySelector("#paletteHolder")
+  );
+
+  loadColorsFromServer();
+    
+  appCode();
+}
 
 $(document).ready(function() {
        getToken();     
